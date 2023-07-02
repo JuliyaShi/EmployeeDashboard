@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h2>Add Employee</h2>
+
+  <form (submit)="newEmployee()" class="mt-4">
+    <div class="mb-3">
+      <label for="name" class="form-label">Name:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="employee.name" required class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="jobTitle" class="form-label">Job Title:</label>
+      <input type="text" id="jobTitle" name="jobTitle" [(ngModel)]="employee.jobTitle" required class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="tenure" class="form-label">Tenure:</label>
+      <input type="text" id="tenure" name="tenure" [(ngModel)]="employee.tenure" required class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="gender" class="form-label">Gender:</label>
+      <select id="gender" name="gender" [(ngModel)]="employee.gender" required class="form-select">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+  </form>
+
+  <!-- Update trigger for refreshing employee table -->
+  <button (click)="updateEmployeeTable()" class="btn btn-secondary mt-3">Update Employee Table</button>
+</div>

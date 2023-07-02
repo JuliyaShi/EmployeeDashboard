@@ -6,6 +6,8 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports":true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -22,6 +24,10 @@
     "lib": [
       "ES2022",
       "dom"
+    ],
+    "types": [
+      "chart.js",
+      "jest"
     ]
   },
   "angularCompilerOptions": {

@@ -1,0 +1,34 @@
+<div class="table-responsive font-varela">
+  <h1 class="mt-2 text-decoration-underline">Corporate Employees</h1>
+  <div class="table-responsive">
+    <button class="btn btn-primary top-9 end-2 m-8" routerLink="/add-employee">Add Employee</button>
+    <table class="table table-striped table-responsive table-bordered mt-5">
+      <thead class="sticky-top table-secondary">
+        <tr class="bg-secondary">
+          <th (click)="sortTable('name')">Name <span *ngIf="sortedColumn === 'name'" [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span></th>
+          <th (click)="sortTable('jobTitle')">Job Title <span *ngIf="sortedColumn === 'jobTitle'" [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span></th>
+          <th (click)="sortTable('tenure')">Tenure <span *ngIf="sortedColumn === 'tenure'" [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span></th>
+          <th (click)="sortTable('gender')">Gender <span *ngIf="sortedColumn === 'gender'" [ngClass]="sortDirection === 'asc' ? 'arrow-up' : 'arrow-down'"></span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <td>{{ employee.name }}</td>
+          <td>{{ employee.jobTitle }}</td>
+          <td>{{ employee.tenure }}</td>
+          <td>{{ employee.gender }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row mt-5">
+      <div class="col-lg-6">
+        <h5>Employee by Job Title</h5>
+        <canvas #jobTitleChartCanvas></canvas>
+      </div>
+      <div class="col-lg-6">
+        <h5>Employee by Gender</h5>
+        <canvas #genderChartCanvas width="400" height="400"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
