@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
-import { EmployeeService } from '../employee.service';
-import { Employee } from '../employee.service';
-import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { Employee, EmployeeService } from '../employee.service'; // Import the Employee interface from the appropriate file
 
 @Component({
   selector: 'app-add-employee-form',
@@ -12,58 +10,84 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-employee-form.component.css']
 })
 export class AddEmployeeFormComponent {
-    employee: Employee = {
+  @ViewChild('employeeForm', { static: false }) employeeForm!: NgForm;
+  employee: Employee = {
     name: '',
     jobTitle: '',
-    tenure: '',
+    tenure: 0,
     gender: ''
   };
-  constructor(private employeeService: EmployeeService, private http: HttpClient, private router: Router) {}
 
-  newEmployee() {
-    // Add validation logic if required
+  formSubmitted: boolean = false;
+  formErrors: { [key: string]: boolean } = {};
 
-    // Call the employee service to add the new employee
-    this.employeeService.addEmployee(this.employee).subscribe({
-      next: (newEmployee) => {
-        // Employee added successfully
-        console.log('Employee added:', newEmployee);
-        // Update the employee table here if required
-        // Call the updateEmployeeTable() method or any other logic you have for updating the table
-      },
-      error: (error) => {
-        // Error occurred while adding employee
-        console.log('Error adding employee:', error);
-      }
-    });
+  constructor(private http: HttpClient, private router: Router, private employeeService: EmployeeService) {}
 
-    // Reset the form after adding the employee
-    this.resetForm();
+  submitForm() {
+    this.formSubmitted = true;
+    this.formErrors = {};
+
+    if (this.isFormValid()) {
+      // Create the JSON data to send in the POST request
+      const data: Employee = {
+        name: this.employee.name as string,
+        jobTitle: this.employee.jobTitle as string,
+        tenure: Number(this.employee.tenure),
+        gender: this.employee.gender as string
+      };
+
+      // Set the headers for the request
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+      // Make the POST request using HttpClient
+      this.employeeService.addEmployee(data).subscribe(
+        (response) => {
+          console.log('Employee added:', response);
+          // Reset the form
+          this.resetForm();
+          // Redirect to the dashboard page
+          this.router.navigate(['/dashboard']);
+        },
+        (error) => {
+          console.error('Error adding employee:', error);
+          // Handle the error appropriately
+        }
+      );
+    } else {
+      this.validateForm();
+    }
   }
 
-  updateEmployeeTable() {
-    // Reload the employee data from the JSON file
-    this.http.get<Employee>('assets/new_hire.json').subscribe(
-      (data: Employee) => {
-        // Update the employeeData with the new data
-        this.employee = data;
-      },
-      (error) => {
-        console.error('Error loading employee data:', error);
-      }
+  isFormValid(): boolean {
+    return (
+      this.employee.name.trim().length > 0 && typeof this.employee.name === 'string' &&
+      this.employee.jobTitle.trim().length > 0 && typeof this.employee.jobTitle === 'string' &&
+      this.employee.tenure.toString().length > 0 && typeof this.employee.tenure === 'number' &&
+      this.employee.gender.trim().length > 0 && typeof this.employee.gender === 'string'
     );
-    this.router.navigate(['/dashboard']);
-
   }
 
+  validateForm() {
+    const { name, jobTitle, tenure, gender } = this.employee;
+
+    this.formErrors = {
+      name: !name || typeof name !== 'string',
+      jobTitle: !jobTitle || typeof jobTitle !== 'string',
+      tenure: !tenure || typeof tenure !== 'number',
+      gender: !gender || typeof gender !== 'string'
+    };
+  }
 
   resetForm() {
-    // Reset the employee object and form fields
     this.employee = {
       name: '',
       jobTitle: '',
-      tenure: '',
+      tenure: 0,
       gender: ''
     };
+    this.formSubmitted = false;
+    this.formErrors = {};
   }
 }
+
+

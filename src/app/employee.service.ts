@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 export interface Employee {
   name: string;
   jobTitle: string;
-  tenure: string;
+  tenure: number;
   gender: string;
   [key: string]: any;
 }
@@ -15,15 +14,15 @@ export interface Employee {
   providedIn: 'root'
 })
 export class EmployeeService {
-  private readonly employeeUrl = 'assets/hew_hire.json';
+  private baseUrl = 'http://localhost:8000/employees';
 
   constructor(private http: HttpClient) { }
 
-  addEmployee(employee: Employee): Observable<Employee> {
-    return this.http.post<Employee>(`${this.employeeUrl}/employees`, employee);
+  getEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(this.baseUrl);
   }
 
-  getEmployees(): Observable<any> {
-    return this.http.get<any>(this.employeeUrl);
+  addEmployee(employee: Employee): Observable<Employee> {
+    return this.http.post<Employee>(this.baseUrl, employee);
   }
 }

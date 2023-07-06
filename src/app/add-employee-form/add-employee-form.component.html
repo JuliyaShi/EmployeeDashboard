@@ -1,22 +1,41 @@
 <div class="container mt-4">
   <h2>Add Employee</h2>
 
-  <form (submit)="newEmployee()" class="mt-4">
+  <form (ngSubmit)="submitForm()" class="mt-4" #employeeForm="ngForm">
+    <div *ngIf="formSubmitted && employeeForm.invalid" class="text-danger">
+      Please fill in all the fields.
+    </div>
+    <div *ngIf="formSubmitted && formErrors['serverError']" class="text-danger">
+      An error occurred while adding the employee. Please try again later.
+    </div>
+
+    <div *ngIf="formSubmitted && formErrors['name']" class="text-danger">
+      Please enter a valid name.
+    </div>
     <div class="mb-3">
       <label for="name" class="form-label">Name:</label>
       <input type="text" id="name" name="name" [(ngModel)]="employee.name" required class="form-control">
     </div>
 
+    <div *ngIf="formSubmitted && formErrors['jobTitle']" class="text-danger">
+      Please enter a valid job title.
+    </div>
     <div class="mb-3">
       <label for="jobTitle" class="form-label">Job Title:</label>
       <input type="text" id="jobTitle" name="jobTitle" [(ngModel)]="employee.jobTitle" required class="form-control">
     </div>
 
+    <div *ngIf="formSubmitted && formErrors['tenure']" class="text-danger">
+      Please enter a valid tenure.
+    </div>
     <div class="mb-3">
       <label for="tenure" class="form-label">Tenure:</label>
-      <input type="text" id="tenure" name="tenure" [(ngModel)]="employee.tenure" required class="form-control">
+      <input type="number" id="tenure" name="tenure" [(ngModel)]="employee.tenure" required class="form-control">
     </div>
 
+    <div *ngIf="formSubmitted && formErrors['gender']" class="text-danger">
+      Please select a valid gender.
+    </div>
     <div class="mb-3">
       <label for="gender" class="form-label">Gender:</label>
       <select id="gender" name="gender" [(ngModel)]="employee.gender" required class="form-select">
@@ -24,8 +43,8 @@
         <option value="Female">Female</option>
       </select>
     </div>
-  </form>
 
-  <!-- Update trigger for refreshing employee table -->
-  <button (click)="updateEmployeeTable()" class="btn btn-secondary mt-3">Update Employee Table</button>
+    <!-- Update trigger for refreshing employee table -->
+    <button type="submit" class="btn btn-secondary mt-3" [disabled]="!employeeForm.form.valid">Update Employee Table</button>
+  </form>
 </div>
