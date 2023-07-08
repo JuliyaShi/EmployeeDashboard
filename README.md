@@ -9,7 +9,7 @@
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Run `npm list -g json-server` for a json-server. Navigate to `http://localhost:8000/`. The application will automatically reload if you change any of the source files.
+Run `json-server --watch db.json` for a json-server. Navigate to `http://localhost3000/`. The application will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
