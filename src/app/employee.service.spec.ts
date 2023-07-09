@@ -35,7 +35,7 @@ describe('EmployeeService', () => {
       expect(response).toEqual(employee);
     });
 
-    const request = httpMock.expectOne('http://localhost:8000/employees');
+    const request = httpMock.expectOne('http://localhost:3000/employees');
     expect(request.request.method).toBe('POST');
     request.flush(employee);
   });
@@ -50,7 +50,7 @@ describe('EmployeeService', () => {
       expect(response).toEqual(employees);
     });
 
-    const request = httpMock.expectOne('http://localhost:8000/employees');
+    const request = httpMock.expectOne('http://localhost:3000/employees');
     expect(request.request.method).toBe('GET');
     request.flush(employees);
   });

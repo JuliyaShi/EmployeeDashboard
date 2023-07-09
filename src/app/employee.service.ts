@@ -14,7 +14,7 @@ export interface Employee {
   providedIn: 'root'
 })
 export class EmployeeService {
-  private baseUrl = 'http://localhost:8000/employees';
+  private baseUrl = 'http://localhost:3000/employees';
 
   constructor(private http: HttpClient) { }
 

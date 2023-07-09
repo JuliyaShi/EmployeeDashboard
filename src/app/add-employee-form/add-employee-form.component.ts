@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Employee, EmployeeService } from '../employee.service'; // Import the Employee interface from the appropriate file
+import { Employee, EmployeeService } from '../employee.service';
 
 @Component({
   selector: 'app-add-employee-form',
@@ -15,11 +15,11 @@ export class AddEmployeeFormComponent {
     name: '',
     jobTitle: '',
     tenure: 0,
-    gender: ''
+    gender: 'Select gender'
   };
 
   formSubmitted: boolean = false;
-  formErrors: { [key: string]: boolean } = {};
+  formErrors: { [key: string]: boolean | string } = {};
 
   constructor(private http: HttpClient, private router: Router, private employeeService: EmployeeService) {}
 
@@ -41,9 +41,7 @@ export class AddEmployeeFormComponent {
 
       // Make the POST request using HttpClient
       this.employeeService.addEmployee(data).subscribe(
-        (response) => {
-          console.log('Employee added:', response);
-          // Reset the form
+        (response) => {          // Reset the form
           this.resetForm();
           // Redirect to the dashboard page
           this.router.navigate(['/dashboard']);
@@ -62,8 +60,7 @@ export class AddEmployeeFormComponent {
     return (
       this.employee.name.trim().length > 0 && typeof this.employee.name === 'string' &&
       this.employee.jobTitle.trim().length > 0 && typeof this.employee.jobTitle === 'string' &&
-      this.employee.tenure.toString().length > 0 && typeof this.employee.tenure === 'number' &&
-      this.employee.gender.trim().length > 0 && typeof this.employee.gender === 'string'
+      !isNaN(Number(this.employee.tenure)) && this.employee.gender.trim().length > 0 && typeof this.employee.gender === 'string'
     );
   }
 
@@ -71,10 +68,10 @@ export class AddEmployeeFormComponent {
     const { name, jobTitle, tenure, gender } = this.employee;
 
     this.formErrors = {
-      name: !name || typeof name !== 'string',
-      jobTitle: !jobTitle || typeof jobTitle !== 'string',
-      tenure: !tenure || typeof tenure !== 'number',
-      gender: !gender || typeof gender !== 'string'
+      name: !name || typeof name !== 'string' || name.trim().length === 0 || /\d/.test(name) ? 'Please enter a valid name.' : '',
+      jobTitle: !jobTitle || typeof jobTitle !== 'string' || jobTitle.trim().length === 0 || /\d/.test(jobTitle) ? 'Please enter a valid job title.' : '',
+      tenure: isNaN(Number(tenure)) ? 'Please enter a valid tenure.' : '',
+      gender: !gender || typeof gender !== 'string' || gender.trim().length === 0 ? 'Please select a valid gender.' : ''
     };
   }
 
@@ -83,7 +80,7 @@ export class AddEmployeeFormComponent {
       name: '',
       jobTitle: '',
       tenure: 0,
-      gender: ''
+      gender: 'Select gender'
     };
     this.formSubmitted = false;
     this.formErrors = {};
