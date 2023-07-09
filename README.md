@@ -1,10 +1,15 @@
 # EmployeeManagementApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.7.
+- This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.7.
+- The backend part is running on json-server@0.17.3
+- The UI part build by using Bootstrap 5.3.0
+- The charts were created by using Charts.js 3.7.0.
 
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+Run `json-server --watch db.json` for a json-server. Navigate to `http://localhost3000/`. The application will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
