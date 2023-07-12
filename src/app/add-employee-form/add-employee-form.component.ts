@@ -48,7 +48,6 @@ export class AddEmployeeFormComponent {
         },
         (error) => {
           console.error('Error adding employee:', error);
-          // Handle the error appropriately
         }
       );
     } else {
@@ -60,7 +59,7 @@ export class AddEmployeeFormComponent {
     return (
       this.employee.name.trim().length > 0 && typeof this.employee.name === 'string' &&
       this.employee.jobTitle.trim().length > 0 && typeof this.employee.jobTitle === 'string' &&
-      !isNaN(Number(this.employee.tenure)) && this.employee.gender.trim().length > 0 && typeof this.employee.gender === 'string'
+      !isNaN(Number(this.employee.tenure)) && this.employee.gender !== 'Select gender' && this.employee.name.trim().length > 0
     );
   }
 
@@ -71,7 +70,7 @@ export class AddEmployeeFormComponent {
       name: !name || typeof name !== 'string' || name.trim().length === 0 || /\d/.test(name) ? 'Please enter a valid name.' : '',
       jobTitle: !jobTitle || typeof jobTitle !== 'string' || jobTitle.trim().length === 0 || /\d/.test(jobTitle) ? 'Please enter a valid job title.' : '',
       tenure: isNaN(Number(tenure)) ? 'Please enter a valid tenure.' : '',
-      gender: !gender || typeof gender !== 'string' || gender.trim().length === 0 ? 'Please select a valid gender.' : ''
+      gender: !gender || gender == 'Select gender' ? 'Please select a valid gender.' : ''
     };
   }
 
