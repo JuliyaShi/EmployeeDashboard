@@ -1,7 +1,7 @@
 <div class="container mt-4">
   <h2>Add Employee</h2>
 
-  <form (ngSubmit)="submitForm()" class="mt-4" #employeeForm="ngForm" #form="ngForm">
+  <form (ngSubmit)="submitForm()" class="mt-4" #employeeForm="ngForm">
     <div *ngIf="employeeForm.submitted && employeeForm.invalid" class="text-danger">
       Please fill in all the fields.
     </div>
@@ -12,7 +12,7 @@
     <div class="mb-3">
       <label for="name" class="form-label">Name:</label>
       <input type="text" id="name" name="name" [(ngModel)]="employee.name" required pattern="[A-Za-z ]+" class="form-control" [ngClass]="{'is-invalid': employeeForm.controls['name']?.invalid && (employeeForm.controls['name']?.dirty || employeeForm.controls['name']?.touched)}">
-      <div *ngIf="employeeForm.controls['name'].invalid && (employeeForm.controls['name'].dirty || employeeForm.controls['name'].touched)" class="invalid-feedback">
+      <div *ngIf="employeeForm.controls['name']?.invalid && (employeeForm.controls['name']?.dirty || employeeForm.controls['name']?.touched)" class="invalid-feedback">
         This field must contain only alphabetic characters. Please enter a valid name.
       </div>
     </div>
@@ -20,34 +20,33 @@
     <div class="mb-3">
       <label for="jobTitle" class="form-label">Job Title:</label>
       <input type="text" id="jobTitle" name="jobTitle" [(ngModel)]="employee.jobTitle" required pattern="[A-Za-z ]+" class="form-control" [ngClass]="{'is-invalid': employeeForm.controls['jobTitle']?.invalid && (employeeForm.controls['jobTitle']?.dirty || employeeForm.controls['jobTitle']?.touched)}">
-      <div *ngIf="employeeForm.controls['jobTitle'].invalid && (employeeForm.controls['jobTitle'].dirty || employeeForm.controls['jobTitle'].touched)" class="invalid-feedback">
-        This field must contain only alphabetic characters.Please enter a valid job title.
+      <div *ngIf="employeeForm.controls['jobTitle']?.invalid && (employeeForm.controls['jobTitle']?.dirty || employeeForm.controls['jobTitle']?.touched)" class="invalid-feedback">
+        This field must contain only alphabetic characters. Please enter a valid job title.
       </div>
     </div>
 
     <div class="mb-3">
       <label for="tenure" class="form-label">Tenure:</label>
       <input type="number" id="tenure" name="tenure" [(ngModel)]="employee.tenure" required class="form-control" [ngClass]="{'is-invalid': employeeForm.controls['tenure']?.invalid && (employeeForm.controls['tenure']?.dirty || employeeForm.controls['tenure']?.touched)}">
-      <div *ngIf="employeeForm.controls['tenure'].invalid && (employeeForm.controls['tenure'].dirty || employeeForm.controls['tenure'].touched)" class="invalid-feedback">
-        This field must contain only numbers.Please enter a valid tenure.
+      <div *ngIf="employeeForm.controls['tenure']?.invalid && (employeeForm.controls['tenure']?.dirty || employeeForm.controls['tenure']?.touched)" class="invalid-feedback">
+        This field must contain only numbers. Please enter a valid tenure.
       </div>
     </div>
 
     <div class="mb-3">
       <label for="gender" class="form-label">Gender:</label>
       <div class="form-group">
-        <select id="gender" name="gender" [(ngModel)]="employee.gender" required class="form-select">
-          <option value="Select gender" disabled selected>Select gender</option>
+        <select id="gender" name="gender" [(ngModel)]="employee.gender" required class="form-select" [ngClass]="{'is-invalid': employeeForm.controls['gender']?.invalid && (employeeForm.controls['gender']?.dirty || employeeForm.controls['gender']?.touched)}">
+          <option value="" disabled>Select gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
         </select>
       </div>
-      <div *ngIf="employeeForm.controls['gender']?.invalid && (employeeForm.controls['gender']?.dirty || employeeForm.controls['gender']?.touched) && formErrors['gender']" class="invalid-feedback">
-        {{ formErrors['gender'] }}
+      <div *ngIf="employeeForm.controls['gender']?.invalid && (employeeForm.controls['gender']?.dirty || employeeForm.controls['gender']?.touched)" class="invalid-feedback">
+        Please select a valid gender.
       </div>
     </div>
 
-    <button type="submit" class="btn btn-secondary mt-3" [disabled]="!employeeForm.form.valid">Update Employee Table</button>
-
+    <button type="submit" class="btn btn-secondary mt-3" [disabled]="!employeeForm.form.valid || employee.gender === 'Select gender'">Update Employee Table</button>
   </form>
 </div>
